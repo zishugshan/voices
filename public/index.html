@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Commento — Leave Your Mark</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0f0e0d;
+      --paper: #f5f0e8;
+      --cream: #ede8dc;
+      --rust: #c0392b;
+      --gold: #b8860b;
+      --sage: #5a7a5e;
+      --slate: #4a5568;
+      --muted: #8a8070;
+      --card-bg: #fdfaf4;
+      --border: #d4c9b0;
+      --shadow: rgba(15,14,13,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      background-image:
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c4b99a' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      text-align: center;
+      padding: 60px 24px 40px;
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 3px;
+      background: var(--rust);
+      margin: 24px auto 0;
+    }
+
+    .eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 400px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ─── MAIN LAYOUT ─── */
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ─── COMPOSE BOX ─── */
+    .compose {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      margin-bottom: 48px;
+      box-shadow: 4px 4px 0 var(--border);
+      position: relative;
+    }
+
+    .compose::before {
+      content: '✦ Leave your mark';
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: var(--card-bg);
+      padding: 0 10px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .compose-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .compose-row input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      background: var(--paper);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .compose-row input:focus {
+      border-color: var(--rust);
+    }
+
+    .compose-row input::placeholder { color: var(--muted); }
+
+    textarea {
+      width: 100%;
+      min-height: 110px;
+      resize: vertical;
+      padding: 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      background: var(--paper);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      line-height: 1.6;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus { border-color: var(--rust); }
+    textarea::placeholder { color: var(--muted); }
+
+    .compose-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .char-count {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .char-count.warn { color: var(--rust); }
+
+    .btn-post {
+      background: var(--rust);
+      color: #fff;
+      border: none;
+      padding: 11px 28px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-post:hover { background: #a93226; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(192,57,43,0.3); }
+    .btn-post:active { transform: translateY(0); }
+    .btn-post:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* ─── COMMENTS SECTION ─── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .section-label h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .count-badge {
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .divider {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── COMMENT CARD ─── */
+    .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .comment-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      padding: 22px 24px;
+      display: flex;
+      gap: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: slideUp 0.35s ease both;
+    }
+
+    .comment-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 3px 5px 0 var(--border);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .comment-body { flex: 1; min-width: 0; }
+
+    .comment-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .comment-name {
+      font-weight: 500;
+      font-size: 0.92rem;
+      color: var(--ink);
+    }
+
+    .comment-time {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .comment-text {
+      font-size: 0.95rem;
+      color: var(--slate);
+      line-height: 1.65;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+
+    .comment-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .btn-like {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-like:hover { border-color: var(--rust); color: var(--rust); background: rgba(192,57,43,0.05); }
+    .btn-like.liked { border-color: var(--rust); color: var(--rust); background: rgba(192,57,43,0.08); }
+
+    /* ─── EMPTY / LOADING STATES ─── */
+    .state-box {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--muted);
+    }
+
+    .state-box .icon { font-size: 2.5rem; margin-bottom: 14px; }
+    .state-box p { font-size: 0.95rem; line-height: 1.6; }
+
+    .loader {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 40px;
+    }
+
+    .loader span {
+      width: 8px; height: 8px;
+      background: var(--border);
+      border-radius: 50%;
+      animation: bounce 1s ease-in-out infinite;
+    }
+
+    .loader span:nth-child(2) { animation-delay: 0.15s; }
+    .loader span:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+      40% { transform: scale(1.2); opacity: 1; }
+    }
+
+    /* ─── TOAST ─── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--ink);
+      color: var(--paper);
+      padding: 12px 24px;
+      border-radius: 3px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 100;
+      white-space: nowrap;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.error { background: var(--rust); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 520px) {
+      h1 { font-size: 2.4rem; }
+      .compose-row { flex-direction: column; }
+      .comment-card { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p class="eyebrow">Open Community Board</p>
+    <h1>The <em>Wall</em></h1>
+    <p class="subtitle">No account. No login. Just words. Say something worth reading.</p>
+  </header>
+
+  <main>
+    <!-- Compose -->
+    <div class="compose">
+      <div class="compose-row">
+        <input type="text" id="nicknameInput" placeholder="Your name (optional)" maxlength="30" />
+      </div>
+      <textarea id="messageInput" placeholder="What's on your mind?..." maxlength="1000"></textarea>
+      <div class="compose-footer">
+        <span class="char-count" id="charCount">0 / 1000</span>
+        <button class="btn-post" id="postBtn" onclick="postComment()">Post →</button>
+      </div>
+    </div>
+
+    <!-- Comments -->
+    <div class="section-label">
+      <h2>Voices</h2>
+      <span class="count-badge" id="commentCount">—</span>
+      <div class="divider"></div>
+    </div>
+
+    <div class="comments-list" id="commentsList">
+      <div class="loader">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    All comments are public. Be kind. ✦ The Wall
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ── Config ──────────────────────────────────────────────
+    const API = '';  // same origin; change to full URL if backend is separate
+
+    // ── Guest Identity ───────────────────────────────────────
+    function getOrCreateGuest() {
+      let id = localStorage.getItem('wall_guest_id');
+      let color = localStorage.getItem('wall_guest_color');
+      if (!id) {
+        id = crypto.randomUUID();
+        const colors = ['#c0392b','#16a085','#8e44ad','#d35400','#2980b9','#27ae60','#c0392b','#7f8c8d','#b8860b','#2c3e50'];
+        color = colors[Math.floor(Math.random() * colors.length)];
+        localStorage.setItem('wall_guest_id', id);
+        localStorage.setItem('wall_guest_color', color);
+      }
+      return { id, color };
+    }
+
+    function getLiked() {
+      try { return JSON.parse(localStorage.getItem('wall_liked') || '[]'); }
+      catch { return []; }
+    }
+
+    function saveLiked(arr) {
+      localStorage.setItem('wall_liked', JSON.stringify(arr));
+    }
+
+    const guest = getOrCreateGuest();
+
+    // ── Char counter ─────────────────────────────────────────
+    const messageInput = document.getElementById('messageInput');
+    const charCount = document.getElementById('charCount');
+
+    messageInput.addEventListener('input', () => {
+      const len = messageInput.value.length;
+      charCount.textContent = `${len} / 1000`;
+      charCount.classList.toggle('warn', len > 900);
+    });
+
+    // ── Toast ────────────────────────────────────────────────
+    let toastTimer;
+    function showToast(msg, isError = false) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.className = 'toast show' + (isError ? ' error' : '');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+    }
+
+    // ── Relative time ─────────────────────────────────────────
+    function relTime(dateStr) {
+      const diff = (Date.now() - new Date(dateStr)) / 1000;
+      if (diff < 60) return 'just now';
+      if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+      if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+      if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
+      return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    // ── Render single card ───────────────────────────────────
+    function renderCard(c, prepend = false) {
+      const liked = getLiked();
+      const isLiked = liked.includes(c._id);
+      const initial = (c.nickname || 'A')[0].toUpperCase();
+
+      const card = document.createElement('div');
+      card.className = 'comment-card';
+      card.dataset.id = c._id;
+      card.style.animationDelay = prepend ? '0ms' : `${Math.min(liked.length * 40, 300)}ms`;
+
+      card.innerHTML = `
+        <div class="avatar" style="background:${c.avatarColor}">${initial}</div>
+        <div class="comment-body">
+          <div class="comment-meta">
+            <span class="comment-name">${escHtml(c.nickname || 'Anonymous')}</span>
+            <span class="comment-time">${relTime(c.createdAt)}</span>
+          </div>
+          <div class="comment-text">${escHtml(c.message)}</div>
+          <div class="comment-actions">
+            <button class="btn-like ${isLiked ? 'liked' : ''}" onclick="likeComment('${c._id}', this)">
+              ♥ <span class="like-count">${c.likes || 0}</span>
+            </button>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ── Load comments ─────────────────────────────────────────
+    async function loadComments() {
+      const list = document.getElementById('commentsList');
+      try {
+        const res = await fetch(`${API}/api/comments`);
+        if (!res.ok) throw new Error('Failed');
+        const comments = await res.json();
+
+        document.getElementById('commentCount').textContent = comments.length;
+
+        if (comments.length === 0) {
+          list.innerHTML = `<div class="state-box"><div class="icon">✦</div><p>No voices yet.<br>Be the first to leave your mark.</p></div>`;
+          return;
+        }
+
+        list.innerHTML = '';
+        comments.forEach((c, i) => {
+          const card = renderCard(c);
+          card.style.animationDelay = `${i * 40}ms`;
+          list.appendChild(card);
+        });
+      } catch (err) {
+        list.innerHTML = `<div class="state-box"><div class="icon">⚠</div><p>Could not load comments.<br>Make sure the server is running.</p></div>`;
+      }
+    }
+
+    // ── Post comment ──────────────────────────────────────────
+    async function postComment() {
+      const nickname = document.getElementById('nicknameInput').value.trim();
+      const message = messageInput.value.trim();
+
+      if (!message) { showToast('Write something first.', true); return; }
+
+      const btn = document.getElementById('postBtn');
+      btn.disabled = true;
+      btn.textContent = 'Posting…';
+
+      try {
+        const res = await fetch(`${API}/api/comments`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            guestId: guest.id,
+            avatarColor: guest.color,
+            nickname: nickname || 'Anonymous',
+            message,
+          }),
+        });
+
+        if (!res.ok) throw new Error('Post failed');
+        const saved = await res.json();
+
+        // Prepend to list
+        const list = document.getElementById('commentsList');
+        const emptyBox = list.querySelector('.state-box');
+        if (emptyBox) list.innerHTML = '';
+
+        const card = renderCard(saved, true);
+        list.insertBefore(card, list.firstChild);
+
+        // Update count
+        const badge = document.getElementById('commentCount');
+        badge.textContent = parseInt(badge.textContent || '0') + 1;
+
+        messageInput.value = '';
+        charCount.textContent = '0 / 1000';
+        charCount.classList.remove('warn');
+        showToast('Your mark is on the wall ✦');
+      } catch {
+        showToast('Could not post. Is the server running?', true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Post →';
+      }
+    }
+
+    // ── Like ──────────────────────────────────────────────────
+    async function likeComment(id, btn) {
+      const liked = getLiked();
+      if (liked.includes(id)) { showToast('Already liked!'); return; }
+
+      try {
+        const res = await fetch(`${API}/api/comments/${id}/like`, { method: 'POST' });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        btn.querySelector('.like-count').textContent = data.likes;
+        btn.classList.add('liked');
+        liked.push(id);
+        saveLiked(liked);
+      } catch {
+        showToast('Could not like.', true);
+      }
+    }
+
+    // Keyboard shortcut: Ctrl/Cmd+Enter to post
+    messageInput.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') postComment();
+    });
+
+    // ── Init ─────────────────────────────────────────────────
+    loadComments();
+  </script>
+</body>
+</html>
